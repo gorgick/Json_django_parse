@@ -1,3 +1,5 @@
+import csv
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -5,6 +7,13 @@ from bs4 import BeautifulSoup
 def get_html(url):
     r = requests.get(url)
     return r.text
+
+
+def write_csv(data):
+    with open('igromania.csv', 'a', encoding="utf-8") as f:
+        order = ['studio', 'director', 'genre', 'amount_series']
+        writer = csv.DictWriter(f, fieldnames=order)
+        writer.writerow(data)
 
 
 def get_data(html):
@@ -34,7 +43,8 @@ def get_data(html):
             'genre': [genre],
             'amount_series': amount_series
         }
-        print(data)
+        write_csv(data)
+
 
 
 def main():
