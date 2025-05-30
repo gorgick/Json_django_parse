@@ -28,9 +28,16 @@ class AnimeAdmin(admin.ModelAdmin):
                 'form': form
             }
             return render(request, 'admin/csv_form.html', context, status=400)
+        csv_file = TextIOWrapper(
+            form.files["csv_file"].file,
+            encoding="utf-8"
+        )
 
-
-
+        reader = DictReader(csv_file)
+        products = [DestAnime(data=row) for row in reader]
+        DestAnime.objects.bulk_create(products)
+        self.message_user(request, "Data from CSV was imported")
+        return redirect("..")
 
     def get_urls(self):
         urls = super().get_urls()
