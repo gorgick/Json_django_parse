@@ -18,7 +18,7 @@ def create_data(request):
             "amount_series": 25}'
         );""")
         row = cursor.fetchall()
-    print(row)
+
     return render(request, 'js_on/index.html', {'row': row})
 
 
