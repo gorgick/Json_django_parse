@@ -25,6 +25,7 @@ def create_data(request):
 def index(request):
     with connection.cursor() as cursor:
         cursor.execute("SELECT * FROM js_on_DestAnime")
+        cursor.execute("""SELECT * FROM js_on_DestAnime Where data @> '{"genre": ["романтика"]}'::jsonb""")
         row = cursor.fetchall()
     print(row)
     return render(request, 'js_on/index.html', {'row': row})
